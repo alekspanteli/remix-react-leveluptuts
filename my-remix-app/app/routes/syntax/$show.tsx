@@ -1,4 +1,14 @@
 import { useLoaderData } from "@remix-run/react";
+import styles from "~/styles/syntax/show.css"
+
+export function links() {
+  return [
+    {
+      rel: "stylesheet",
+      href: styles
+    }
+  ]
+}
 
 export let loader = async ({ params }) => {
   const response = await fetch('https://syntax.fm/api/shows/' + params.show);
