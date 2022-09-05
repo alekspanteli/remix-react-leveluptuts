@@ -1,27 +1,18 @@
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 
-export let loader = () => {
+export let loader = async () => {
+
+  const response = await fetch('https://syntax.fm/api/shows');
+  const shows = await response.json();
+
   return {
     podcastName: "Syntax podcast",
-    episodes: [
-      {
-        title: "Episode 1",
-        link: "episode-1",
-      },
-      {
-        title: "Episode 2",
-        link: "episode-2",
-      },
-      {
-        title: "Episode 3",
-        link: "episode-3",
-      },
-    ],
+    shows
   };
 };
 
 export default function () {
-  let { podcastName, episodes } = useLoaderData();
+  let { podcastName, shows } = useLoaderData();
 
   return (
     <>
@@ -31,9 +22,9 @@ export default function () {
       <aside>
         <nav>
           <ul>
-            {episodes.map((episode: any) => (
-              <li key={episode.link}>
-                <Link to={`/syntax/${episode.link}`}>{episode.title}</Link>
+            {shows.map((show: any) => (
+              <li key={show.number}>
+                <Link to={`/syntax/${show.number}`}>#{show.number} : {show.title}</Link>
               </li>
             ))}
           </ul>
